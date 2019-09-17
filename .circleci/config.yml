@@ -8,9 +8,9 @@ jobs:
       - run:
           command: |
             git clone https://github.com/kruegersp/cc.git
-            rm cc/util/TileUtil.java
-            rm -r cc/vector_tile
-            rm cc/ws/XodrTiles.java
+            rm cc/src/cc/util/TileUtil.java
+            rm -r cc/src/cc/vector_tile
+            rm cc/src/cc/ws/XodrTiles.java
             mkdir build
             find -name "*.java" > sources.txt
             cat sources.txt
