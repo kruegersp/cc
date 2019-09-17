@@ -7,4 +7,4 @@ jobs:
     resource_class: xlarge
     steps:
       - run: git clone https://github.com/kruegersp/cc.git
-      - run: wget --version
+      - run: ls -l /tmp/cc
