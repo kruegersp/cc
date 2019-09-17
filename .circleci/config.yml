@@ -5,6 +5,5 @@ jobs:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
     working_directory: /tmp
     steps:
-      - run:
-         name: Deploy if tests pass and branch is Staging
-         command: git clone https://github.com/kruegersp/cc.git # check out the CARMAcloud code
+      - run: git clone https://github.com/kruegersp/cc.git
+      - run: java -version
