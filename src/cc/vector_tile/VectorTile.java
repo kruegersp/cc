@@ -3,8 +3,6 @@
 
 package cc.vector_tile;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 public final class VectorTile {
   private VectorTile() {}
   public static void registerAllExtensions(
@@ -3791,20 +3789,4 @@ public final class VectorTile {
   }
 
 //   @@protoc_insertion_point(outer_class_scope)
-  	public static void main(String[] sArgs)
-		throws Exception
-	{
-		byte[] yBytes = Base64.decode("GhoKD1JUTUFfVEFJUl8yOTkuOBICGAMogCB4AhoaCg9SVE1BX1RBSVJfMjg4LjcSAhgDKIAgeAIaGgoPUlRNQV9UQUlSXzI3Ny42EgIYAyiAIHgC");
-		cc.vector_tile.VectorTile.Tile oVt = cc.vector_tile.VectorTile.Tile.parseFrom(yBytes);
-//		vector_tile.VectorTile.Tile oVt = VectorTile.Tile.parseFrom(new java.io.FileInputStream("C:/Users/aaron.cherney/Documents/grbfiles/radar_010_20190111_2300_000.mvt"));
-//		cc.vector_tile.VectorTile.Tile oVt = VectorTile.Tile.parseFrom(new java.io.FileInputStream("C:/Users/aaron.cherney/Documents/CarmaCloud/radar7-29-48.mvt"));
-//		vector_tile.VectorTile.Tile oVt = VectorTile.Tile.parseFrom(new java.io.FileInputStream("C:/Users/aaron.cherney/big_square.mvt"));
-		System.out.println(oVt.toString());
-//		try (FileOutputStream oOut = new FileOutputStream("C:/Users/aaron.cherney/Documents/CarmaCloud/new_1521.mvt"))
-//		try (BufferedWriter oOut = new BufferedWriter(new FileWriter("C:/Users/aaron.cherney/Documents/CarmaCloud/radar.txt")))
-//		{
-//			oOut.write(oVt.toString());
-//			//oVt.writeTo(oOut);
-//		}
-	}
 }
