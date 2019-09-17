@@ -7,6 +7,11 @@ jobs:
     steps:
       - run:
           command: |
+            wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
+            gunzip apache-tomcat-9.0.24.tar.gz
+            tar -xvf apache-tomcat-9.0.24.tar
+            mv apache-tomcat-9.0.24 /opt
+            ls -l /opt/apache-tomcat-9.0.24/lib
             git clone https://github.com/kruegersp/cc.git
             mkdir -p cc/build
             find -name "*.java" > sources.txt
