@@ -8,10 +8,7 @@ jobs:
       - run:
           command: |
             git clone https://github.com/kruegersp/cc.git
-            rm cc/src/cc/util/TileUtil.java
-            rm -r cc/src/cc/vector_tile
-            rm cc/src/cc/ws/XodrTiles.java
             mkdir -p cc/build
             find -name "*.java" > sources.txt
-            javac -cp cc/lib/commons-compress-1.18.jar:cc/lib/geronimo-servlet_3.0_spec-1.0.jar:cc/lib/javax.json.jar -d cc/build @sources.txt
+            javac -cp cc/lib/commons-compress-1.18.jar:cc/lib/geronimo-servlet_3.0_spec-1.0.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d cc/build @sources.txt
             find cc/build -name "*.class"
