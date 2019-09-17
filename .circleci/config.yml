@@ -10,9 +10,10 @@ jobs:
             wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
             gunzip apache-tomcat-9.0.24.tar.gz
             tar -xf apache-tomcat-9.0.24.tar
-            ls -l apache-tomcat-9.0.24/lib
+            mv apache-tomcat-9.0.24 tomcat
+            ls -l tomcat/lib
             git clone https://github.com/kruegersp/cc.git
             mkdir -p cc/build
-            find -name "*.java" > sources.txt
-            javac -cp cc/lib/commons-compress-1.18.jar:cc/lib/geronimo-servlet_3.0_spec-1.0.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d cc/build @sources.txt
-            find cc/build -name "*.class"
+            find ./cc/src -name "*.java" > sources.txt
+            javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d cc/build @sources.txt
+            find ./cc/build -name "*.class"
