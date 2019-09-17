@@ -13,5 +13,4 @@ jobs:
             rm cc/src/cc/ws/XodrTiles.java
             mkdir build
             find -name "*.java" > sources.txt
-            cat sources.txt
-            javac -d build @sources.txt
+            javac -cp cc/lib/commons-compress-1.18.jar:cc/lib/geronimo-servlet_3.0_spec-1.0.jar:cc/lib/javax.json.jar -d build -Xlint:deprecation @sources.txt
