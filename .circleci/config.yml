@@ -6,10 +6,5 @@ jobs:
     working_directory: /tmp
     resource_class: xlarge
     steps:
-      - run:
-        name: clone CARMAcloud repository
-        command: git clone https://github.com/kruegersp/cc.git
-        
-      - run:
-        name: test wget
-        command: wget --version
+      - run: git clone https://github.com/kruegersp/cc.git
+      - run: wget --version
