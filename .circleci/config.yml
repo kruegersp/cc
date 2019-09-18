@@ -5,7 +5,7 @@ jobs:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
     working_directory: /tmp
     steps:
-      - run:
+      - run: |
         name: download and install Apache Tomcat servlet container
         command: |
           wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
@@ -16,7 +16,8 @@ jobs:
       - run:
         name: clone CARMAcloud repository
         command: git clone https://github.com/kruegersp/cc.git
-      - run:
+
+      - run: |
         name: compile and deploy Java sources to Apache Tomcat
         command: |
           find ./cc/src -name "*.java" > sources.txt
