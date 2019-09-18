@@ -5,15 +5,21 @@ jobs:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
     working_directory: /tmp
     steps:
-      - run: |
-        wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
-        gunzip apache-tomcat-9.0.24.tar.gz
-        tar -xf apache-tomcat-9.0.24.tar
-        mv apache-tomcat-9.0.24 tomcat
+      - run:
+        name: install Apache Tomcat servlet container
+        command: >
+          wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz &&
+          gunzip apache-tomcat-9.0.24.tar.gz &&
+          tar -xf apache-tomcat-9.0.24.tar &&
+          mv apache-tomcat-9.0.24 tomcat
 
-      - run: git clone https://github.com/kruegersp/cc.git
+      - run:
+        name: clone CARMAcloud repository
+        command: git clone https://github.com/kruegersp/cc.git
 
-      - run: |
-        find ./cc/src -name "*.java" > sources.txt
-        mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INV/classes
-        javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INV/classes @sources.txt
+      - run:
+        name: compile and deploye Java sources to Apache Tomcat
+        command: >
+          find ./cc/src -name "*.java" > sources.txt &&
+          mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INV/classes &&
+          javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INV/classes @sources.txt
