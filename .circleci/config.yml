@@ -8,23 +8,3 @@ jobs:
       - run:
         name: download Apache Tomcat servlet container
         command: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
-
-      - run:
-        name: install Apache Tomcat
-        command: tar -xf apache-tomcat-9.0.24.tar.gz -C tomcat
-
-      - run:
-        name: clone CARMAcloud repository
-        command: git clone https://github.com/kruegersp/cc.git
-
-      - run:
-        name: create source list to compile
-        command: find ./cc/src -name "*.java" > sources.txt
-
-      - run:
-        name: prepare CARMAcloud installation directories
-        command: mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
-
-      - run:
-        name: compile and deploy CARMAcloud classes
-        command: javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
