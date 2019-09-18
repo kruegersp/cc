@@ -6,5 +6,12 @@ jobs:
     working_directory: /tmp
     steps:
       - run:
-        name: download Apache Tomcat servlet container
-        command: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
+          command: |
+            git clone https://github.com/kruegersp/cc.git
+            rm cc/src/cc/util/TileUtil.java
+            rm -r cc/src/cc/vector_tile
+            rm cc/src/cc/ws/XodrTiles.java
+            mkdir build
+            find -name "*.java" > sources.txt
+            cat sources.txt
+            javac -d build @sources.txt
