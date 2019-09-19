@@ -7,7 +7,7 @@ jobs:
     steps:
       - run: sudo -u root apt-get update
       - run: sudo -u root apt-get install pkg-config
-      - run: sudo -u root apt-get install libsqlite3-dev
+      - run: sudo -u root apt-get install sqlite3 libsqlite3-dev
       - run: wget https://download.osgeo.org/proj/proj-6.1.1.tar.gz
       - run: tar -xzf proj-6.1.1.tar.gz
       - run: cd proj-6.1.1 && ./configure && make && make install
