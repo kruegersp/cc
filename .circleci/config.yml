@@ -9,6 +9,7 @@ jobs:
       - run: sudo -u root apt-get install libsqlite3-dev
       - run: wget https://download.osgeo.org/proj/proj-6.1.1.tar.gz
       - run: tar -xzf proj-6.1.1.tar.gz
+      - run: cd proj-6.1.1 && ./configure && make && make install
       - run: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
       - run: tar -xzf apache-tomcat-9.0.24.tar.gz
       - run: mv apache-tomcat-9.0.24 tomcat
