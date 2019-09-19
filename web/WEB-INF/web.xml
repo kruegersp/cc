@@ -27,7 +27,7 @@
  <init-param>
   <description>REQUIRED: path to user credential file</description>
   <param-name>pwdfile</param-name>
-  <param-value>/mnt/arch/opt/apache-tomcat-9.0.13/webapps/carmacloud/user.csv</param-value>
+  <param-value>/opt/tomcat/webapps/carmacloud/user.csv</param-value>
  </init-param>
 
  <load-on-startup>1</load-on-startup>
@@ -46,7 +46,7 @@
  <init-param>
   <description>REQUIRED: path to OSM road definition directory</description>
   <param-name>osmfile</param-name>
-  <param-value>/mnt/arch/opt/apache-tomcat-9.0.13/webapps/carmacloud/osmbin</param-value>
+  <param-value>/opt/tomcat/webapps/carmacloud/osmbin</param-value>
  </init-param>
 
  <load-on-startup>2</load-on-startup>
@@ -78,7 +78,7 @@
  <init-param>
   <description>REQUIRED: path to storm library CSV file</description>
   <param-name>stormfile</param-name>
-  <param-value>/mnt/arch/opt/apache-tomcat-9.0.13/webapps/carmacloud/storms.csv</param-value>
+  <param-value>/opt/tomcat/webapps/carmacloud/storms.csv</param-value>
  </init-param>
 
  <load-on-startup>4</load-on-startup>
