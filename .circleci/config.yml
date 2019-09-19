@@ -6,13 +6,10 @@ jobs:
     working_directory: /tmp
     steps:
       - run: sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
-      - run: wget https://download.osgeo.org/proj/proj-6.1.1.tar.gz
-      - run: tar -xzf proj-6.1.1.tar.gz
-      - run: cd proj-6.1.1 && ./configure && make && make install
-      - run: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
-      - run: tar -xzf apache-tomcat-9.0.24.tar.gz
-      - run: mv apache-tomcat-9.0.24 tomcat
+      - run: wget https://download.osgeo.org/proj/proj-6.1.1.tar.gz && tar -xzf proj-6.1.1.tar.gz
+      - run: cd proj-6.1.1 && ./configure && make && sudo -u root make install && cd ..
+      - run: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz && tar -xzf apache-tomcat-9.0.24.tar.gz
       - run: git clone https://github.com/kruegersp/cc.git
       - run: find ./cc/src -name "*.java" > sources.txt
-      - run: mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
+      - run: mv apache-tomcat-9.0.24 tomcat && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
       - run: javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
