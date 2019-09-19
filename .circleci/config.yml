@@ -5,7 +5,7 @@ jobs:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
     working_directory: /tmp
     steps:
-      - run: apt-get install libsqlite3-dev
+      - run: sudo -u root apt-get install libsqlite3-dev
       - run: wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.tar.gz
       - run: tar -xzf apache-tomcat-9.0.24.tar.gz
       - run: mv apache-tomcat-9.0.24 tomcat
