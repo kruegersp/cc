@@ -4,7 +4,28 @@ var g_oSimColors =
 	"#ff0", "#f60", "#c00", "#f09", "#309", "#00c", "#09f",
 	"#090", "#060", "#630", "#963", "#ccc", "#999", "#333"
 ];
+var g_sFollowing = null;
 
+const funcPointToPaddedBounds = point => [{x: point.x - 4, y: point.y - 4}, {x: point.x + 4, y:point.y + 4}];
+const funcIsOnColorLayer = oFeature => 
+{
+	let sId = oFeature.layer.id;
+	for (let sColor of g_oSimColors)
+		if (sId === sColor)
+			return true;
+	
+	return false;
+};
+
+function mapClickHandler({target, point, lngLat})
+{
+	const oFeatures = target.queryRenderedFeatures(funcPointToPaddedBounds(point))
+		.filter(funcIsOnColorLayer);
+	if (oFeatures.length > 0)
+		g_sFollowing = {"id": oFeatures[0].properties.id, "events": {}};
+	else
+		g_sFollowing = null;
+}
 
 function simglSuccess(sData, sStatus, oJqXHR)
 {
@@ -25,13 +46,13 @@ function simglSuccess(sData, sStatus, oJqXHR)
 				(
 					{
 						"id": sColor, "type": "circle", "source": {"type": "geojson", 
-						"data": {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [oSim]}}}, 
+						"data": {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": oSim}, "properties" : {"id": sId}}]}}, 
 						"paint": {"circle-radius": 2, "circle-color": sColor}
 					}
 				);
 			}
 			else
-				oLayer._data.geometry.coordinates.push(oSim);
+				oLayer._data.features.push({"type": "Feature", "geometry": {"type": "Point", "coordinates": oSim}, "properties": {"id": sId}});
 		}
 		let oLatLng = oSims[sId];
 		oSim[0] = oLatLng[1]; // switch to lon lat order
@@ -44,6 +65,69 @@ function simglSuccess(sData, sStatus, oJqXHR)
 		if (oLayer !== undefined)
 			oLayer.setData(oLayer._data);
 	}
+	if (g_sFollowing !== null && g_sFollowing !== undefined)
+	{
+		let oLngLat = g_oSims[g_sFollowing.id];
+		$.ajax("api/event/msgs",
+		{
+			method: "POST",
+			data: {"token": sessionStorage.token,
+					 "lat": oLngLat[1], "lon": oLngLat[0]},
+			success: msgsSuccess,
+			timeout: 500
+		});
+	}
+	else
+		$("#simDetail").hide();
+}
+
+
+function msgsSuccess(sData, sStatus, oJqXHR)
+{
+	let oLngLat = g_oSims[g_sFollowing.id];
+	let sDetail = "Lon: " + oLngLat[0] + " Lat: " + oLngLat[1];
+	let oEvents = JSON.parse(sData);
+	for (let [sEvent, oEvent] of Object.entries(oEvents))
+	{
+		let oPrevEvent = g_sFollowing.events[sEvent];
+		if (oPrevEvent === undefined)
+		{
+			g_sFollowing.events[sEvent] = {"dist": oEvent.dist, "lanes": undefined};
+			continue;
+		}
+		else
+		{
+			if (oPrevEvent.lanes === undefined)
+			{
+				if (oPrevEvent.dist < oEvent.dist) // current distance is greater
+					oPrevEvent.lanes = oEvent["lanes-be"]
+				else
+					oPrevEvent.lanes = oEvent["lanes-eb"];
+			}
+		}
+		sDetail += "<br/><br/>";
+		sDetail += "Type: " + g_oTypes[oEvent.type] + "&emsp;Lanes Affected: " + g_oLanes[oPrevEvent.lanes];
+		for (let [sRop, oRop] of Object.entries(oEvent.ropdetails))
+		{
+			for (let oControl of oRop.controls)
+			{
+				sDetail += "<br/>&emsp;";
+				oLookup = g_oControls[oControl.type];
+				sDetail += oLookup.label;
+				for (let [sId, sValue] of Object.entries(oControl.inputs))
+				{
+					if (oLookup.vals === undefined)
+						sDetail += " " + sValue;
+					else
+						sDetail += " " + oLookup.vals[sValue];
+					if (oLookup.uom !== undefined)
+						sDetail += " " + oLookup.uom
+				}
+			}
+		}
+	}
+	$("#simDetail").empty().html(sDetail).show();
+	g_oMap.flyTo({"center": oLngLat, "zoom": 16});
 }
 
 
@@ -101,3 +185,4 @@ function radarStyles(oFeat)
 //document.cookie = "r" + sNow;
 //document.cookie = "t" + sNow;
 //map.addLayer(new L.TileLayer.MVTSource({url: "https://testimrcp.data-env.com/mvt/rdr0/{z}/{x}/{y}", style: radarStyles}));
+	
