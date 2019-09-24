@@ -16,4 +16,5 @@ jobs:
       - run: cat /etc/hosts
       - run: echo 'hi aaron' | sudo -u root tee -a tomcat/webapps/carmacloud/ROOT/test.txt
       - run: tomcat/bin/catalina.sh start
-      - run: wget -qO- carmacloud/test.txt
+      - run: sleep 5s
+      - run: wget carmacloud/test.txt
