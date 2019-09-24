@@ -10,7 +10,7 @@ jobs:
       - run: cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
       - run: find ./cc/src -name "*.java" > sources.txt && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
       - run: javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
-      - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml && sed -i '1 i 127.0.0.1\tcarmacloud' /etc/hosts
+      - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml && sudo -u root sed -i '1 i 127.0.0.1\tcarmacloud' /etc/hosts
       - run: cat tomcat/conf/server.xml
       - run: cat /etc/hosts
       - run: wget carmacloud
