@@ -15,7 +15,7 @@ jobs:
       - run: cat tomcat/conf/server.xml
       - run: cat /etc/hosts
       - run: echo 'hi aaron' | sudo -u root tee -a tomcat/webapps/carmacloud/ROOT/test.txt
-      - run: sudo - u root chmod 777 tomcat/webapps/carmacloud/ROOT/test.txt
+      - run: sudo -u root chmod 777 tomcat/webapps/carmacloud/ROOT/test.txt
       - run: tomcat/bin/catalina.sh start
       - run: sleep 3s
       - run: wget carmacloud/test.txt
