@@ -17,4 +17,4 @@ jobs:
       - run: echo 'hi aaron' | sudo -u root tee -a tomcat/webapps/carmacloud/ROOT/test.txt
       - run: tomcat/bin/catalina.sh start
       - run: sleep 3s
-      - run: ping -c 4 carmacloud
+      - run: sudo -u root ping -c 4 carmacloud
