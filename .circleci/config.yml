@@ -11,6 +11,6 @@ jobs:
       - run: find ./cc/src -name "*.java" > sources.txt && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
       - run: javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
       - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
-      - run: docker run --add-host=carmacloud:127.0.01
+      - run: docker run --add-host=carmacloud:127.0.0.1
       - run: cat tomcat/conf/server.xml
       - run: cat /etc/hosts
