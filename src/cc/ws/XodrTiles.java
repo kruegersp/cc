@@ -26,6 +26,7 @@ import cc.util.TileUtil;
 import cc.vector_tile.VectorTile;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -35,7 +36,7 @@ import java.util.Map.Entry;
  */
 public class XodrTiles extends HttpServlet
 {
-	private ArrayList<Road> m_oXodrRoads;
+	private ArrayList<Road> m_oXodrRoads = new ArrayList();
 	private String[] m_sRoadMarkKeys = new String[]{"roadmark_color"};
 	private String[] m_sLaneKeys = new String[]{"lane_type"};
 	private String[] m_sRoadMarkValues = new String[]{"unknown", "white", "yellow", "none"};
@@ -47,8 +48,11 @@ public class XodrTiles extends HttpServlet
 	{
 		try
 		{
-			XodrParser oParser = new XodrParser();
-			m_oXodrRoads = oParser.readXodr(oSConfig.getInitParameter("xodr"));
+			for (File oXodrFile : new File(oSConfig.getInitParameter("xodrdir")).listFiles((oFile) -> {return oFile.getName().endsWith(".xodr");}))
+			{
+				XodrParser oParser = new XodrParser();
+				m_oXodrRoads.addAll(oParser.readXodr(oXodrFile.getAbsolutePath()));
+			}
 		}
 		catch (Exception oEx)
 		{
