@@ -17,5 +17,5 @@ jobs:
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
       - run: cat tomcat/webapps/carmacloud/user.csv
       - run: sudo -u root mv tomcat /opt/
-      - run: /opt/tomcat/bin/catalina.sh start
+      - run: sudo -u root /opt/tomcat/bin/catalina.sh start
       - run: sleep 30s && wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
