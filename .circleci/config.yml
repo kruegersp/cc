@@ -13,7 +13,7 @@ jobs:
       - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
       - run: echo -e '127.0.0.1\tcarmacloud' | sudo -u root tee -a /etc/hosts
       - run: cat cc/src/cc/ws/UserMgr.java
-      - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr cherneya testpw > tomcat/webapps/carmacloud/user.csv
+      - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr cherneya testpw
       - run: cat tomcat/webapps/carmacloud/user.csv
       - run: sudo -u root mv tomcat /opt/
       - run: /opt/tomcat/bin/catalina.sh start
