@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
+      - user: root
     working_directory: /tmp
     steps:
       - run: git clone https://github.com/kruegersp/cc.git
@@ -13,14 +14,7 @@ jobs:
       - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
       - run: cat tomcat/conf/server.xml
       - run: echo -e '127.0.0.1\tcarmacloud' | sudo -u root tee -a /etc/hosts
-      - run: cat cc/src/cc/ws/UserMgr.java
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
-      - run: cat tomcat/webapps/carmacloud/user.csv
-      - run: sudo -u root apt-get install nmap
-      - run: sudo -u root mv tomcat /opt/
+      - run: mv tomcat /opt/
       - run: sudo -u root /opt/tomcat/bin/catalina.sh start
-      - run: sleep 10s
-      - run: sudo -u root ls -lrt /opt/tomcat/logs/
-      - run: sudo -u root cat /opt/tomcat/logs/catalina.out
-      - run: sudo -u root nmap localhost
-      - run: wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
+      - run: sleep 10s && wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
