@@ -19,8 +19,7 @@ public class UserMgr extends HttpServlet
 	protected static MessageDigest DIGEST;
 	protected ArrayList<User> m_oCreds = new ArrayList();
 
-
-	public UserMgr()
+	static
 	{
 		try
 		{
@@ -29,6 +28,9 @@ public class UserMgr extends HttpServlet
 		catch (Exception oEx)
 		{
 		}
+	}
+	public UserMgr()
+	{
 	}
 
 
