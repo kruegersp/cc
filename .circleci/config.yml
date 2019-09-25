@@ -16,7 +16,9 @@ jobs:
              ADDR=`sudo -u root ip addr show | grep inet |grep -v 127.0.0.1 | awk '{print $2}' | cut -d "/" -f 1`
              LINE=`grep -n "<Connector executor=\"tomcatThreadPool\"" tomcat/conf/server.xml | cut -d: -f -1`
              sed -i "$LINE"'s/$/ 'address=\""$ADDR"\"' &/' tomcat/conf/server.xml
+             echo -e '$ADDR\tcarmacloud' | sudo -u root tee -a /etc/hosts
       - run: cat tomcat/conf/server.xml
+      - run: sudo -u root cat /etc/hosts
       - run: echo -e '127.0.0.1\tcarmacloud' | sudo -u root tee -a /etc/hosts
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
       - run: mv tomcat /opt/
