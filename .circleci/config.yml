@@ -18,6 +18,7 @@ jobs:
              sed -i "$LINE"'s/$/ 'address=\""$ADDR"\"' &/' tomcat/conf/server.xml
              echo -e "$ADDR\tcarmacloud" | sudo -u root tee -a /etc/hosts
       - run: cat tomcat/conf/server.xml
+      - run: sudo -u root ls -lrt /usr
       - run: sudo -u root cat /etc/hosts
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
       - run: mv tomcat /opt/
