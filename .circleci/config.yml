@@ -20,6 +20,7 @@ jobs:
       - run: sudo -u root mv tomcat /opt/
       - run: sudo -u root /opt/tomcat/bin/catalina.sh start
       - run: sleep 10s
+      - run: sudo -u root ls -lrt /opt/tomcat/logs/
       - run: sudo -u root cat /opt/tomcat/logs/catalina.out
       - run: sudo -u root nmap localhost
       - run: wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
