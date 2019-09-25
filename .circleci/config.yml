@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:11-jdk-stretch # OpenJDK on Debian 9 Stretch Docker container
-      - user: root
+        user: root
     working_directory: /tmp
     steps:
       - run: git clone https://github.com/kruegersp/cc.git
