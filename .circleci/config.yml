@@ -5,7 +5,6 @@ jobs:
       - image: kruegerbsp/carmacloud:latest
     working_directory: /tmp
     steps:
-      - run: sudo -u root find / -name java
       - run: git clone https://github.com/kruegersp/cc.git
       - run: sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
       - run: cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
@@ -22,6 +21,7 @@ jobs:
       - run: sudo -u root ls -lrt /usr
       - run: sudo -u root cat /etc/hosts
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
+      - run: echo "JAVA_HOME=/usr/local/openjdk-11" > tomcat/bin/setenv.sh
       - run: mv tomcat /opt/
       - run: sudo -u root /opt/tomcat/bin/catalina.sh start
       - run: sleep 10s 
