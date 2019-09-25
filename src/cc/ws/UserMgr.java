@@ -114,28 +114,28 @@ public class UserMgr extends HttpServlet
 	}
 
 
-//	public static void main(String[] sArgs)
-//	{
-//		String sUser = sArgs[0];
-//		String sPass = sArgs[1];
-//
-//		byte[] ySalt = new byte[32]; // use 256-bit algorithm
-//		try
-//		{
-//			java.security.SecureRandom.getInstance("SHA1PRNG").nextBytes(ySalt);
-//			StringBuilder sBuf = new StringBuilder();
-//			UserMgr.getSecurePassword(sPass, ySalt, sBuf);
-//
-//			System.out.print(sUser);
-//			System.out.print(",");
-//			System.out.print(Text.toHexString(ySalt));
-//			System.out.print(",");
-//			System.out.print(sBuf.toString());
-//			System.out.print(",");
-//			System.out.println("abcdefghijklmnopqrstWvwxyz");
-//		}
-//		catch (Exception oEx)
-//		{
-//		}
-//	}
+	public static void main(String[] sArgs)
+	{
+		String sUser = sArgs[0];
+		String sPass = sArgs[1];
+
+		byte[] ySalt = new byte[32]; // use 256-bit algorithm
+		try
+		{
+			java.security.SecureRandom.getInstance("SHA1PRNG").nextBytes(ySalt);
+			StringBuilder sBuf = new StringBuilder();
+			UserMgr.getSecurePassword(sPass, ySalt, sBuf);
+
+			System.out.print(sUser);
+			System.out.print(",");
+			System.out.print(Text.toHexString(ySalt));
+			System.out.print(",");
+			System.out.print(sBuf.toString());
+			System.out.print(",");
+			System.out.println("abcdefghijklmnopqrstWvwxyz");
+		}
+		catch (Exception oEx)
+		{
+		}
+	}
 }
