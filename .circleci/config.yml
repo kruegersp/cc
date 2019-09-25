@@ -5,6 +5,7 @@ jobs:
       - image: kruegerbsp/carmacloud:latest
     working_directory: /tmp
     steps:
+      - run: apt-get install nmap
       - run: git clone https://github.com/kruegersp/cc.git
       - run: sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
       - run: cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
@@ -27,4 +28,9 @@ jobs:
       - run: sleep 10s 
       - run: sudo -u root ls -lrt /opt/tomcat/logs/
       - run: sudo -u root ip addr show
+      - run:
+          command: |
+             ADDR=`sudo -u root ip addr show | grep inet |grep -v 127.0.0.1 | awk '{print $2}' | cut -d "/" -f 1`
+             nmap "$ADDR"
+      - run: ps -e | grep java
       - run: wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
