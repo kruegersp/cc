@@ -27,7 +27,7 @@ jobs:
       - run: sleep 10s 
       - run: sudo -u root ls -lrt /opt/tomcat/logs/
       - run: sudo -u root ip addr show
-      - run: ps -e | grep java
+      - run: /etc/init.d/iptables stop
       - run: apt-get install nmap
       - run:
           command: |
