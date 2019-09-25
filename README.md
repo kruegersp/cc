@@ -5,6 +5,7 @@ CARMAcloud provides some of the infrastructure components for CARMA. It enables 
 
 ## Deployment
 CARMAcloud can be deployed on a Linux server running the Debian Operating System by executing the following commands as root in the console:
+```
 1.  cd /tmp
 2.  git clone https://github.com/kruegersp/cc.git
 3.  sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
@@ -16,6 +17,7 @@ CARMAcloud can be deployed on a Linux server running the Debian Operating System
 9.  java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
 10.  mv tomcat /opt/
 11.  sudo -u root /opt/tomcat/bin/catalina.sh start
+```
 
 ## Configuration
 
