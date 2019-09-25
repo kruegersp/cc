@@ -6,19 +6,19 @@ CARMAcloud provides some of the infrastructure components for CARMA. It enables 
 ## Deployment
 CARMAcloud can be deployed on a Linux server running the Debian Operating System by executing the following commands as root in the console:
 ```
-1.  cd /tmp
-2.  git clone https://github.com/kruegersp/cc.git
-3.  sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
-4.  cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
-5.  find ./cc/src -name "*.java" > sources.txt && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
-6.  javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
-7.  sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
-8.  echo -e '127.0.0.1\tcarmacloud' | sudo -u root tee -a /etc/hosts
-9.  java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
-10.  mv tomcat /opt/
-11.  sudo -u root /opt/tomcat/bin/catalina.sh start
+cd /tmp
+git clone https://github.com/kruegersp/cc.git
+sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
+cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
+find ./cc/src -name "*.java" > sources.txt && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
+javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
+sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
+echo -e '127.0.0.1\tcarmacloud' | sudo -u root tee -a /etc/hosts
+java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
+sudo -u root mv tomcat /opt/
+sudo -u root /opt/tomcat/bin/catalina.sh start
 ```
-
+These commands will download the CARMAcloud source code from github, necessary operating system dependencies, and the tomcat webserver. Changes to the tomcat version might be necessary if version 9.0.26 is no longer available on the apache mirror. Next the java code will be compiled and the .class files will be placed in the correct directory. Tomcat's server.xml file will have the carmacloud host entry inserted in the correct location. Carmacloud will be added to the /etc/hosts file. The java command that runs cc.ws.UserMgr will create the ccadmin user for the system. It is suggested to change to password to something more secure by replacing "admin_testpw" with the desired password in the command. Once all of the configuration items are complete, the last command starts the webserver that runs the CARMAcloud application.
 ## Configuration
 
 
