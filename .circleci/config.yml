@@ -7,30 +7,15 @@ jobs:
     steps:
       - run: git clone https://github.com/kruegersp/cc.git
       - run: sudo -u root apt-get update && sudo -u root apt-get install pkg-config sqlite3 libsqlite3-dev
+      - run: wget https://download.osgeo.org/proj/proj-6.1.1.tar.gz && tar -xzf proj-6.1.1.tar.gz && mv proj-6.1.1 proj
+      - run: cd /tmp/proj && ./configure && make && sudo -u root make install
+      - run: cd /tmp/cc/src/cc/geosrv && gcc -c -std=c11 -fPIC -Wall -I /usr/local/openjdk-11/include/ -I /usr/local/openjdk-11/include/linux/ -I /tmp/proj/src/ cs2cswrapper.c && gcc -shared -lproj cs2cswrapper.o -o libcs2cswrapper.so && sudo -u root mv *.so /usr/lib
       - run: cd /tmp && wget http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-9/v9.0.26/bin/apache-tomcat-9.0.26.tar.gz && tar -xzf apache-tomcat-9.0.26.tar.gz && mv apache-tomcat-9.0.26 tomcat
       - run: find ./cc/src -name "*.java" > sources.txt && mkdir -p tomcat/webapps/carmacloud/ROOT/WEB-INF/classes
       - run: javac -cp tomcat/lib/servlet-api.jar:cc/lib/commons-compress-1.18.jar:cc/lib/javax.json.jar:cc/lib/protobuf-javalite-3.8.0-rc-1.jar -d tomcat/webapps/carmacloud/ROOT/WEB-INF/classes @sources.txt
       - run: sed -i '/<\/Engine>/ i \ \ \ \ \  <Host name="carmacloud" appBase="webapps/carmacloud" unpackWARs="false" autoDeploy="false">\n      </Host>' tomcat/conf/server.xml 
-      - run:
-          command: |
-             ADDR=`sudo -u root ip addr show | grep inet |grep -v 127.0.0.1 | awk '{print $2}' | cut -d "/" -f 1`
-             LINE=`grep -n "<Connector executor=\"tomcatThreadPool\"" tomcat/conf/server.xml | cut -d: -f -1`
-             sed -i "$LINE"'s/$/ 'address=\""$ADDR"\"' &/' tomcat/conf/server.xml
-             echo -e "$ADDR\tcarmacloud" | sudo -u root tee -a /etc/hosts
-      - run: cat tomcat/conf/server.xml
       - run: sudo -u root ls -lrt /usr
       - run: sudo -u root cat /etc/hosts
       - run: java -cp tomcat/webapps/carmacloud/ROOT/WEB-INF/classes/:tomcat/lib/servlet-api.jar cc.ws.UserMgr ccadmin admin_testpw > tomcat/webapps/carmacloud/user.csv
       - run: echo "JAVA_HOME=/usr/local/openjdk-11" > tomcat/bin/setenv.sh
-      - run: mv tomcat /opt/
-      - run: sudo -u root /opt/tomcat/bin/catalina.sh start
-      - run: sleep 10s 
-      - run: sudo -u root ls -lrt /opt/tomcat/logs/
-      - run: sudo -u root ip addr show
-      - run: /etc/init.d/iptables stop
-      - run: apt-get install nmap
-      - run:
-          command: |
-             ADDR=`sudo -u root ip addr show | grep inet |grep -v 127.0.0.1 | awk '{print $2}' | cut -d "/" -f 1`
-             nmap "$ADDR"
-      - run: wget -O - --post-data="uname=ccadmin&pword=admin_testpw" http://carmacloud:8080/api/auth/login
+      - run: sudo -u root mv tomcat /opt/
